@@ -21,6 +21,18 @@ fun mockApi() = createMockApi(
             persist = false
         ).mock(
             "http://localhost/recent-android-versions",
+            { "something went wrong on server side" },
+            500,
+            1000,
+            persist = false
+        ).mock(
+            "http://localhost/recent-android-versions",
+            { "something went wrong on server side" },
+            500,
+            1000,
+            persist = false
+        ).mock(
+            "http://localhost/recent-android-versions",
             { Gson().toJson(mockAndroidVersions) },
             200,
             1000

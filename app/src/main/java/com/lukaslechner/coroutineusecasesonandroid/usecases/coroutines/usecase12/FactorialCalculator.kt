@@ -2,40 +2,36 @@ package com.lukaslechner.coroutineusecasesonandroid.usecases.coroutines.usecase1
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.withContext
 import java.math.BigInteger
 
 class FactorialCalculator(
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 ) {
 
-    fun calculateFactorial(
+    suspend fun calculateFactorial(
         factorialOf: Int,
         numberOfCoroutines: Int
     ): BigInteger {
-
-        // TODO: create sub range list *on background thread*
-        val subRanges = createSubRangeList(factorialOf, numberOfCoroutines)
-
-
-        // TODO: calculate factorial of each subrange in separate coroutine
-        // use calculateFactorialOfSubRange(subRange) therefore
-
-
-        // TODO: create factorial result by multiplying all sub-results and return this
-        // result
-
-        return BigInteger.ZERO
+        return withContext(defaultDispatcher) {
+            val subRanges = createSubRangeList(factorialOf, numberOfCoroutines)
+            subRanges.map {
+                async { calculateFactorialOfSubRange(it) }
+            }.awaitAll()
+                .fold(BigInteger.ONE, BigInteger::multiply)
+        }
     }
 
-    // TODO: execute on background thread
-    fun calculateFactorialOfSubRange(
+    suspend fun calculateFactorialOfSubRange(
         subRange: SubRange
-    ): BigInteger {
+    ) = withContext(defaultDispatcher) {
         var factorial = BigInteger.ONE
         for (i in subRange.start..subRange.end) {
             factorial = factorial.multiply(BigInteger.valueOf(i.toLong()))
         }
-        return factorial
+        factorial
     }
 
     fun createSubRangeList(
