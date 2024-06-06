@@ -17,7 +17,7 @@ fun main() = runBlocking {
         println("Caught $throwable")
     }
     val scope = CoroutineScope(Job() + exceptionHandler + CoroutineName("RootScopeName"))
-    println(scope.coroutineContext)
+    println(scope.coroutineContext[CoroutineName])
     scope.launch {
         performTasks(3)
         launch {
@@ -37,7 +37,7 @@ private suspend fun performTasks(numberOfTasks: Int) = coroutineScope {
             println("Ended task $it")
         }
     }
-    println("Inside performTasks " + this.coroutineContext)
+    println("Inside performTasks " + this.coroutineContext[CoroutineName])
 }
 
 private suspend fun performTasks() = coroutineScope {
