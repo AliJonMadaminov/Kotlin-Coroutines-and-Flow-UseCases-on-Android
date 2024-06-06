@@ -5,6 +5,7 @@ import com.lukaslechner.coroutineusecasesonandroid.base.BaseViewModel
 import com.lukaslechner.coroutineusecasesonandroid.mock.MockApi
 import com.lukaslechner.coroutineusecasesonandroid.mock.VersionFeatures
 import com.lukaslechner.coroutineusecasesonandroid.usecases.coroutines.usecase6.withRetry
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
@@ -20,18 +21,16 @@ class TimeoutAndRetryViewModel(
         val numberOfRetries = 2
         val timeout = 1000L
         viewModelScope.launch {
-            supervisorScope {
-                val result1 = async {
-                    retryWithTimeout(timeout, numberOfRetries) { api.getAndroidVersionFeatures(27) }
-                }
-                val result2 = async {
-                    retryWithTimeout(timeout, numberOfRetries) { api.getAndroidVersionFeatures(28) }
-                }
-                try {
-                    uiState.value = UiState.Success(listOf(result1, result2).awaitAll())
-                } catch (e: Exception) {
-                    uiState.value = UiState.Error("Network request failed withing supervisor scope")
-                }
+            val result1 = async(SupervisorJob()) {
+                retryWithTimeout(timeout, numberOfRetries) { api.getAndroidVersionFeatures(27) }
+            }
+            val result2 = async(SupervisorJob()) {
+                retryWithTimeout(timeout, numberOfRetries) { api.getAndroidVersionFeatures(28) }
+            }
+            try {
+                uiState.value = UiState.Success(listOf(result1, result2).awaitAll())
+            } catch (e: Exception) {
+                uiState.value = UiState.Error("Network request failed withing supervisor scope")
             }
         }
 

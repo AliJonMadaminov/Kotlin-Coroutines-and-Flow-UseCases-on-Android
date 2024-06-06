@@ -28,7 +28,7 @@ fun mockApi() = createMockApi(
         .mock(
             "http://localhost/android-version-features/27",
             { Gson().toJson(mockVersionFeaturesOreo) },
-            200,
+            400,
             100
         )
         // timeout on first request for pie features

@@ -20,7 +20,7 @@ fun main() = runBlocking {
     println("coroutine job is a passed job => ${coroutineJob === passedJob}")
     println("coroutine job is a child of passed job => ${passedJob.children.contains(coroutineJob)}")
     println("passed job is a child of scope job => ${scopeJob.children.contains(passedJob)}")
-    println("is coroutineJob is a child of rootJob => ${scopeJob.children.contains(coroutineJob)}")
+    println("is coroutineJob is a child of scopeJob => ${scopeJob.children.contains(coroutineJob)}")
     scope.cancel()
     println("scope is cancelled")
     delay(1000)
