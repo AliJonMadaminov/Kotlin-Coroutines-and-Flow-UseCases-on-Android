@@ -3,7 +3,6 @@ package com.lukaslechner.coroutineusecasesonandroid.playground.cancellation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import timber.log.Timber
 import kotlin.coroutines.cancellation.CancellationException
 
 fun main() = runBlocking {
