@@ -12,9 +12,9 @@ import kotlin.coroutines.cancellation.CancellationException
 
 fun main() = runBlocking {
     val job = launch(Dispatchers.Default) {
-//        countToTenEnsureActive()
+        countToTenEnsureActive()
 //        countToTenYield()
-        countToTenIsActive()
+//        countToTenIsActive()
     }
     delay(300)
     println("Canceling job...")
