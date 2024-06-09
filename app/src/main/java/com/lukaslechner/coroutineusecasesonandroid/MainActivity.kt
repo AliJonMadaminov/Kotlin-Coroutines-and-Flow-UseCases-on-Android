@@ -4,7 +4,11 @@ import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lukaslechner.coroutineusecasesonandroid.base.*
+import com.lukaslechner.coroutineusecasesonandroid.base.BaseActivity
+import com.lukaslechner.coroutineusecasesonandroid.base.UseCaseActivity
+import com.lukaslechner.coroutineusecasesonandroid.base.UseCaseCategory
+import com.lukaslechner.coroutineusecasesonandroid.base.UseCaseCategoryAdapter
+import com.lukaslechner.coroutineusecasesonandroid.base.useCaseCategories
 import com.lukaslechner.coroutineusecasesonandroid.databinding.ActivityMainBinding
 
 class MainActivity : BaseActivity() {
