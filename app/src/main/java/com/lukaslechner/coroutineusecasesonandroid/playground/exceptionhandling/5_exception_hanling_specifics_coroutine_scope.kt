@@ -27,7 +27,7 @@ private suspend fun coroutineScopeWithTryCatch() {
     }
 }
 
-suspend fun doSomethingSuspending() = coroutineScope {
+private suspend fun doSomethingSuspending() = coroutineScope {
     launch {
         throw RuntimeException()
     }
