@@ -19,7 +19,7 @@ fun main() {
 
     If SupervisorJob() is passed, fail of child will not cancel siblings and parent.
      */
-    val scope = CoroutineScope(Job() + exceptionHandler)
+    val scope = CoroutineScope(SupervisorJob() + exceptionHandler)
     scope.launch {
         println("Coroutine 1 started")
         delay(100)
