@@ -7,7 +7,7 @@ import kotlinx.coroutines.*
 import retrofit2.HttpException
 import timber.log.Timber
 
-class  ExceptionHandlingViewModel(
+class ExceptionHandlingViewModel(
     private val api: MockApi = mockApi()
 ) : BaseViewModel<UiState>() {
 
@@ -36,6 +36,32 @@ class  ExceptionHandlingViewModel(
     }
 
     fun showResultsEvenIfChildCoroutineFails() {
+        uiState.value = UiState.Loading
+        viewModelScope.launch {
+            val versionFeatures = getVersionFeaturesDeferred().mapNotNull {
+                try {
+                    it.await()
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Exception) {
+                    println("Error loading features!")
+                    null
+                }
+            }
+            uiState.value = UiState.Success(versionFeatures)
+        }
+    }
 
+    private suspend fun getVersionFeaturesDeferred() = supervisorScope {
+        val oreoFeaturesDeferred = async {
+            api.getAndroidVersionFeatures(27)
+        }
+        val pieFeaturesDeferred = async {
+            api.getAndroidVersionFeatures(28)
+        }
+        val android10FeaturesDeferred = async {
+            api.getAndroidVersionFeatures(29)
+        }
+        listOf(oreoFeaturesDeferred, pieFeaturesDeferred, android10FeaturesDeferred)
     }
 }
