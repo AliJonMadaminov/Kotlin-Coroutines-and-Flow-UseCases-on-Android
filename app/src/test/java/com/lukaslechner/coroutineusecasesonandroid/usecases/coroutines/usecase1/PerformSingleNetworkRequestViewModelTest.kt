@@ -35,7 +35,6 @@ class PerformSingleNetworkRequestViewModelTest {
 
     private val receivedUiState = mutableListOf<UiState>()
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `should return success when network request is successful`() {
         // Arrange
