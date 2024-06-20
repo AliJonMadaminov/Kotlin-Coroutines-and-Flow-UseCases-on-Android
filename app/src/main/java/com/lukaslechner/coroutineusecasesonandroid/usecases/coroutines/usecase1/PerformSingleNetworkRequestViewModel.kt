@@ -14,12 +14,11 @@ class PerformSingleNetworkRequestViewModel(
     fun performSingleNetworkRequest() {
         uiState.value = UiState.Loading
         viewModelScope.launch {
-
             try {
                 val recentAndroidVersions = mockApi.getRecentAndroidVersions()
                 uiState.value = UiState.Success(recentAndroidVersions)
             } catch (e: HttpException) {
-                uiState.value = UiState.Error(e.response()?.errorBody()?.string().toString())
+                uiState.value = UiState.Error("Network request failed")
             }
         }
     }
