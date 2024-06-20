@@ -2,14 +2,11 @@ package com.lukaslechner.coroutineusecasesonandroid.usecases.coroutines.usecase7
 
 import androidx.lifecycle.viewModelScope
 import com.lukaslechner.coroutineusecasesonandroid.base.BaseViewModel
-import com.lukaslechner.coroutineusecasesonandroid.mock.AndroidVersion
 import com.lukaslechner.coroutineusecasesonandroid.mock.MockApi
-import com.lukaslechner.coroutineusecasesonandroid.mock.VersionFeatures
 import com.lukaslechner.coroutineusecasesonandroid.usecases.coroutines.usecase6.withRetry
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withTimeout
@@ -41,10 +38,8 @@ class TimeoutAndRetryViewModel(
                 retryWithTimeout(timeout, numberOfRetries) { api.getAndroidVersionFeatures(28) }
             }
             launch {
-                val version = mutableListOf<VersionFeatures>()
-                result1.awaitOrNull()?.let { version.add(it) }
-                result2.awaitOrNull()?.let { version.add(it) }
-                uiState.value = UiState.Success(version)
+                val versionFeatures = listOf(result1, result2).mapNotNull { it.awaitOrNull() }
+                uiState.value = UiState.Success(versionFeatures)
             }
         }
 
@@ -63,6 +58,8 @@ class TimeoutAndRetryViewModel(
     private suspend fun <T> Deferred<T>.awaitOrNull(): T? {
         return try {
             await()
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             null
         }

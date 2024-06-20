@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.lukaslechner.coroutineusecasesonandroid.base.BaseViewModel
 import com.lukaslechner.coroutineusecasesonandroid.mock.MockApi
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import timber.log.Timber
 
