@@ -15,7 +15,7 @@ class RetryNetworkRequestViewModel(
     fun performNetworkRequest() {
         uiState.value = UiState.Loading
         viewModelScope.launch {
-            val numberOfRetries = 5
+            val numberOfRetries = 2
             try {
                 val recentVersions = withRetry(numberOfRetries, maxDelayMillis = 5_000) { api.getRecentAndroidVersions() }
                 uiState.value = UiState.Success(recentVersions)
