@@ -2,6 +2,7 @@ package com.lukaslechner.coroutineusecasesonandroid.playground
 
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
