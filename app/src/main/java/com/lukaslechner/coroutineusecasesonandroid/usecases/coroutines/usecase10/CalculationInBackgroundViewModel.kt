@@ -2,6 +2,7 @@ package com.lukaslechner.coroutineusecasesonandroid.usecases.coroutines.usecase1
 
 import androidx.lifecycle.viewModelScope
 import com.lukaslechner.coroutineusecasesonandroid.base.BaseViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -10,7 +11,7 @@ import timber.log.Timber
 import java.math.BigInteger
 import kotlin.system.measureTimeMillis
 
-class CalculationInBackgroundViewModel : BaseViewModel<UiState>() {
+class CalculationInBackgroundViewModel(private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default) : BaseViewModel<UiState>() {
 
     fun performCalculation(factorialOf: Int) {
         uiState.value = UiState.Loading
@@ -23,7 +24,7 @@ class CalculationInBackgroundViewModel : BaseViewModel<UiState>() {
 
             var resultString: String
             val stringConversionDuration = measureTimeMillis {
-                resultString = withContext(Dispatchers.Default + CoroutineName("Akang qarag'ay coroutine name berishni o'rgandi")) {
+                resultString = withContext(defaultDispatcher + CoroutineName("Akang qarag'ay coroutine name berishni o'rgandi")) {
                     Timber.tag("DispatcherCheckTag").d("insideStringConversion: $coroutineContext")
                     result.toString()
                 }
@@ -34,7 +35,7 @@ class CalculationInBackgroundViewModel : BaseViewModel<UiState>() {
     }
 
     private suspend fun calculateFactorialOf(number: Int): BigInteger {
-        return withContext(Dispatchers.Default) {
+        return withContext(defaultDispatcher) {
             var factorial = BigInteger.ONE
             for (i in 1..number) {
                 factorial = factorial.multiply(BigInteger.valueOf(i.toLong()))
