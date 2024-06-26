@@ -42,9 +42,11 @@ private fun sumOfEmissionsWithReduce() {
 private fun shoppingCartCaseWithFold() {
     val shoppingCartFlow: Flow<ShoppingItem> = flow {
         delay(100)
-        emit(ShoppingItem(name = "Milk", price = 3))
+        emit(ShoppingItem(name = "Milk", price = 3f))
         delay(100)
-        emit(ShoppingItem(name = "Bread", price = 1, quantity = 2))
+        emit(ShoppingItem(name = "Bread", price = 1f, quantity = 2))
+        delay(100)
+        emit(ShoppingItem(name = "Banana", price = 0.5f, quantity = 5))
     }
 
     runBlocking {
@@ -55,4 +57,4 @@ private fun shoppingCartCaseWithFold() {
     }
 }
 
-private data class ShoppingItem(val name: String, val price: Int, val quantity: Int = 1)
+private data class ShoppingItem(val name: String, val price: Float, val quantity: Int = 1)
