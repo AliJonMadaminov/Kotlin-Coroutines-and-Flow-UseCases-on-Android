@@ -19,6 +19,7 @@ class NetworkStockPriceDataSource(mockApi: FlowMockApi) : StockPriceDataSource {
             val currentStockList = mockApi.getCurrentStockPrices()
             emit(currentStockList)
             delay(5_000)
+            throw Exception("Something went wrong")
         }
     }
 }
