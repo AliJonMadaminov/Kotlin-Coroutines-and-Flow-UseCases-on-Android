@@ -47,18 +47,13 @@ class FlowUseCase2ViewModel(
                 googlePrice > 2300f
             }
             .map { stockList ->
-                stockList.filter { it.country == "United States" }
-            }
-            .map { stockList ->
-                stockList.filter { it.name != "Apple" && it.name != "Microsoft" }
-            }
-            .map { stockList ->
-                stockList.mapIndexed { index, stock ->
-                    stock.copy(rank = index + 1)
-                }
-            }
-            .map { stockList ->
-                stockList.filter { stock -> stock.rank <= 10 }
+                stockList
+                    .filter { it.country == "United States" }
+                    .filter { it.name != "Apple" && it.name != "Microsoft" }
+                    .mapIndexed { index, stock ->
+                        stock.copy(rank = index + 1)
+                    }
+                    .filter { stock -> stock.rank <= 10 }
             }
             .map {
                 UiState.Success(it) as UiState
