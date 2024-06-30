@@ -1,14 +1,14 @@
 package com.lukaslechner.coroutineusecasesonandroid.playground.flow.intermediate_operators
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flowOf
 
 suspend fun main() {
-    listOf(1, 2, null, 3, 3.5f, 4, 5).asFlow()
+    flowOf(1, 2, null, 3, 3.5f, 4, 5)
         .filterNotNull()
         .filterIsInstance<Int>()
         .printEvenNumbers()
