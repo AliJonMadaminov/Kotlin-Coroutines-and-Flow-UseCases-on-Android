@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.lukaslechner.coroutineusecasesonandroid.base.BaseViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -46,6 +47,7 @@ class FlowUseCase2ViewModel(
                 }?.currentPrice ?: return@filter false
                 googlePrice > 2300f
             }
+            .cancellable()
             .map { stockList ->
                 stockList
                     .filter { it.country == "United States" }
