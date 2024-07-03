@@ -47,7 +47,7 @@ suspend fun <T> withRetry(
         }
         delay(currentDelay)
         Timber.tag("RetryDelayTag").d("iteration: $i, delay: $currentDelay")
-        currentDelay = (initialDelayMillis * delayFactor).toLong().coerceAtMost(maxDelayMillis)
+        currentDelay = (currentDelay * delayFactor).toLong().coerceAtMost(maxDelayMillis)
     }
     return block()
 }

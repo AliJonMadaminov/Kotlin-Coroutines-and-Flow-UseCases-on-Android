@@ -5,6 +5,8 @@ import com.lukaslechner.coroutineusecasesonandroid.usecases.flow.mock.Stock
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.retry
+import retrofit2.HttpException
 import timber.log.Timber
 
 interface StockPriceDataSource {
@@ -18,7 +20,14 @@ class NetworkStockPriceDataSource(mockApi: FlowMockApi) : StockPriceDataSource {
             Timber.tag("Flow").d("Fetching current stock prices")
             val currentStockList = mockApi.getCurrentStockPrices()
             emit(currentStockList)
-            delay(5_000)
+            delay(2_000)
         }
+    }.retry(10) { cause ->
+        Timber.tag("Flow").d("entered retry block with cause $cause")
+        val shouldRetry = cause is HttpException
+
+        if (shouldRetry) delay(5_000)
+
+        shouldRetry
     }
 }
