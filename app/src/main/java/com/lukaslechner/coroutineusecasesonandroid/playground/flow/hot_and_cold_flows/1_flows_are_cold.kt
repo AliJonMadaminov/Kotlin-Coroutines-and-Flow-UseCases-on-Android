@@ -1,6 +1,5 @@
 package com.lukaslechner.coroutineusecasesonandroid.playground.flow.hot_and_cold_flows
 
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -38,7 +37,7 @@ private suspend fun flowStartsEmittingWhenCollectedAndStopsWhenCoroutineGotCance
         job.cancelAndJoin()
     }
 
-fun coldFlow() = flow {
+private fun coldFlow() = flow {
     println("emitting 1")
     emit(1)
 
