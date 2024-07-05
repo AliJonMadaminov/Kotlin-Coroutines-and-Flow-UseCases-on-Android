@@ -30,16 +30,7 @@ class FlowUseCase4Activity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.recyclerView.adapter = adapter
-        // Flow<> problem 1: Multiple collectors create multiple producers
-        // Flow<> problem 2: Flow is restarted on configuration change
         lifecycleScope.launch {
-            launch {
-                viewModel.currentStockPriceAsFlow
-                    .flowWithLifecycle(lifecycle)
-                    .collect { uiState ->
-                        render(uiState)
-                    }
-            }
             launch {
                 viewModel.currentStockPriceAsFlow
                     .flowWithLifecycle(lifecycle)
