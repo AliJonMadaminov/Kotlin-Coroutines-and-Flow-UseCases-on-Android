@@ -45,7 +45,7 @@ private suspend fun performTasks() = coroutineScope {
         println("Started task 0")
         delay(50)
         throw Exception("Task 0 failed exception")
-        println("Ended task 0")
+//        println("Ended task 0")
     }
     launch {
         if (!isActive) return@launch
